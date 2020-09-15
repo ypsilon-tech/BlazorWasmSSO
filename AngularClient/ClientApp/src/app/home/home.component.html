@@ -1,0 +1,10 @@
+<h1>Welcome to the weather app!</h1>
+<p>Click the link below to view the weather forcast</p>
+
+<a routerLink="/forecast">View the weather forecast</a>
+
+<a class="btn-block" *ngIf="!isLoggedIn()" href="javascript:void(0)" (click)="login()">Log In</a>
+<div *ngIf="isLoggedIn()">
+  <span>Welcome {{username()}}! </span>
+  <a href="javascript:void(0)" (click)="logout()">Log Out</a>
+</div>

@@ -1,0 +1,4 @@
+<ng-container *ngIf="error">
+  <span>Login failed, please try to </span><a (click)="login()" href="void:javascript(0)">Log In</a><span> again</span>
+  <a class="btn-block" routerLink="/home">Back to home page</a>
+</ng-container>

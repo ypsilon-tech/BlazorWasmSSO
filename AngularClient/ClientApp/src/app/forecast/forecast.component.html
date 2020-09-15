@@ -1,0 +1,31 @@
+<h1>Weather Forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<ng-container *ngIf="!isError">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Temp. (c)</th>
+      <th>Temp. (f)</th>
+      <th>Summary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let forecast of forecasts | async">
+      <td>{{forecast.date | date:'shortDate'}}</td>
+      <td>{{forecast.temperatureC}}</td>
+      <td>{{forecast.temperatureF}}</td>
+      <td>{{forecast.summary}}</td>
+    </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+<ng-container *ngIf="isError">
+  <h3 class="alert-warning">Error retrieving forecast data: {{errorMessage}}</h3>
+</ng-container>
+
+
+<a routerLink="/home">Back to home page</a>
