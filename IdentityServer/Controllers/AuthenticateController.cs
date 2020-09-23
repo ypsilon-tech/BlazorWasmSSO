@@ -6,7 +6,6 @@ using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -95,7 +94,7 @@ namespace IdentityServer.Controllers
                 }
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(request.Username, "invalid credentials", clientId: context?.Client.ClientId));
-                loginError = AccountOptions.InvalidCredentialsErrorMessage;
+                loginError = "Invalid username or password";
             }
 
             return new JsonResult(new
