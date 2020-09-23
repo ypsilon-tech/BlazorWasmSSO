@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-6 offset-3">
+      <h3>Signing out...</h3>
+      <div *ngIf="showSignOutIFrame">
+        <iframe width="0" height="0" class="signout" style="visibility: hidden" src="{{signOutIFrameUrl}}"></iframe>
+      </div>
+      <h4 *ngIf="showGoodbyeMessage">You can close this window. Bye!</h4>
+    </div>
+  </div>
+</div>

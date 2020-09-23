@@ -1,0 +1,75 @@
+<div class="container-fluid py-5">
+
+  <div class="row">
+
+    <div class="col-2 offset-5">
+      <h3>Sign In</h3>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-2 offset-5">
+
+      <div class="card">
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <label for="username">Username:</label>
+            </div>
+            <div class="col-8">
+              <input id="username" [(ngModel)]="username" type="text" style="width: 100%;" autofocus #inputCtl/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <label for="password">Password:</label>
+            </div>
+            <div class="col-8">
+              <input id="password" [(ngModel)]="password" type="password" style="width: 100%;" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="row p-3 justify-content-end">
+            <div class="col-6">
+              <button type="button" class="btn btn-primary mx-3" (click)="login()" style="width: 100%;">Log In</button>
+            </div>
+            <div class="col-6">
+              <button type="button" class="btn btn-danger mx-3" (click)="cancel()" style="width: 100%;">Cancel</button>
+            </div>
+          </div>
+
+          <div class="row justify-content-end">
+            <div class="col-12 text-right">
+              <a href="javascript:void(0)" (click)="goToRegister()">Register New Account</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <ngContainer *ngIf="isAnyExternalProviders">
+
+        <div class="row py-3" *ngFor="let provider of externalProviders">
+          <div class="col-12">
+            <button type="button" class="btn btn-info" (click)="externalLogin(provider)" style="width: 100%;">Login with {{provider.displayName}}</button>
+          </div>
+        </div>
+
+      </ngContainer>
+
+      <div class="row py-3" *ngIf="isError">
+        <div class="col-12">
+          <p class="alert alert-danger">{{error}}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

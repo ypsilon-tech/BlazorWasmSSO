@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer.Models;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServerHost.Quickstart.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +15,7 @@ namespace IdentityServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthenticateController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -34,6 +38,7 @@ namespace IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            
             var context = await _interaction.GetAuthorizationContextAsync(request.ReturnUrl);
             string redirectUrl;
             string loginError = string.Empty;
@@ -96,6 +101,38 @@ namespace IdentityServer.Controllers
             return new JsonResult(new
             {
                 error = !string.IsNullOrWhiteSpace(loginError) ? loginError : "An unexpected error was encountered during login, please try again"
+            });
+        }
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            var showSignoutPrompt = context?.ShowSignoutPrompt != false;
+            string externalAuth = null;
+
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                await _signInManager.SignOutAsync();
+                await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+
+                var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+
+                if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)
+                {
+                    var providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
+                    if (providerSupportsSignout) externalAuth = idp;
+                }
+            }
+
+            return Ok(new
+            {
+                showSignoutPrompt,
+                ClientName = string.IsNullOrEmpty(context?.ClientName) ? context?.ClientId : context.ClientName,
+                postLogoutRedirectUri = context?.PostLogoutRedirectUri,
+                signOutIFrameUrl = context?.SignOutIFrameUrl,
+                logoutId,
+                externalAuth
             });
         }
     }

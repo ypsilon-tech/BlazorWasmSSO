@@ -1,0 +1,97 @@
+<div class="container-fluid py-5">
+
+  <div class="row">
+
+    <div class="col-2 offset-5">
+      <h3>Register Account</h3>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-2 offset-5">
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <form (ngSubmit)="register()">
+
+            <div class="row">
+              <div class="col-4">
+                <label for="name">Name:</label>
+              </div>
+              <div class="col-8">
+                <input id="name" name="name" [(ngModel)]="name" type="text" style="width: 100%;" autofocus required #nameInput="ngModel" #nameCtl />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <label for="emailAddress">Email:</label>
+              </div>
+              <div class="col-8">
+                <input id="emailAddress" name="emailAddress" [(ngModel)]="emailAddress" type="email" style="width: 100%;" required #emailInput="ngModel" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <label for="username">Username:</label>
+              </div>
+              <div class="col-8">
+                <input id="username" name="username" [(ngModel)]="username" type="text" style="width: 100%;" required #usernameInput="ngModel" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <label for="password">Password:</label>
+              </div>
+              <div class="col-8">
+                <input id="password" name="password" [(ngModel)]="password" type="password" style="width: 100%;" autocomplete="off" required #passwordInput="ngModel" />
+              </div>
+            </div>
+
+            <div class="row p-3 justify-content-end">
+              <div class="col-6">
+                <button type="submit" class="btn btn-primary mx-3" style="width: 100%;">Register</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-danger mx-3" (click)="cancel()" style="width: 100%;">Cancel</button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <div class="mt-2">
+        <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="alert alert-danger">
+          Name must be provided
+        </div>
+
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="alert alert-danger">
+          Email address must be provided
+        </div>
+
+        <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="alert alert-danger">
+          Username must be provided
+        </div>
+
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="alert alert-danger">
+          Password must be provided
+        </div>
+
+        <div *ngIf="isRegisterError" class="alert alert-danger">
+          An error occurred during user account registration
+        </div></div>
+
+    </div>
+
+  </div>
+
+</div>
